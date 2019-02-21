@@ -1,0 +1,19 @@
+
+//valid identifiers
+num1
+x
+fileName
+PI
+TOTAL_AMOUNT
+sum_of_areas
+is_TRUE
+const_num_1_
+ValidationClass
+Check_Email_For_Messages
+myDecimalValue2
+myOtherDecimalValue_3008754776654422244
+
+//invalid identifiers
+_acctNum
+__private_ident_in_python
+1testforall

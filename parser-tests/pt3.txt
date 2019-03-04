@@ -1,0 +1,6 @@
+
+//intentional unexpected eof
+
+class test() [
+	writeline("end of file");
+//missing ']'

@@ -1,0 +1,64 @@
+
+int value = 0;
+int i = 0;
+double neg = -2.1;
+double pos = 3.0;
+string str1 = "";
+string str2 = "hello";
+boolean something = false;
+
+int x;
+double y;
+string z;
+boolean ugh;
+
+loop [
+	writeline("Value = ", value);
+	value++;
+] until(i <= 10);
+
+for(i to 200) [
+	write(i);
+	//you can do this...idk why you'd want to
+	class wtf() [
+		int whyAmIHere = 10;
+	]
+]
+
+function doSomething(int a, int b, double c, string d, string e, boolean f, int g) [
+	
+	if(a % b == 0) [f = true;]
+	c *= 1.06;
+	d += e;
+	f = false;
+	g = g^(a + b) / 2;
+	a ^= b;
+	b %= g;
+	c /= g;
+	a++;
+	b++;
+	c--;
+	g--;
+	return null;
+]
+
+import io.github.bmullins4.TestFolder.TestClass;
+import TestClass;
+import SomePackage.TestClass;
+
+int intArr = [1, 2, 3, 4, 5, 6, 7];
+double dblArr = [1.8, 4.3, 2.6];
+string strArr = ["hello", "world"];
+int intArr2D = [intArr];
+
+string userInput;
+int correctAnswers = 0;
+prompt("Enter your answer: ") input [userInput];
+
+choice(userInput) [
+	"A" {writeline("Correct!"); correctInput++;}
+	"B"	{writeline("incorrect");}
+	"C"	{writeline("incorrect");}
+	"D"	{writeline("incorrect");}
+	otherwise {writeline("Invalid input");}
+];

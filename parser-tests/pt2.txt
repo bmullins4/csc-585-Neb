@@ -1,0 +1,2 @@
+//test with blank line at the end
+int num = 10;

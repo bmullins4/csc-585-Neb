@@ -1,0 +1,6 @@
+
+//test function with no brackets
+//this should also fail
+
+function someFunction()
+	write("give me brackets");

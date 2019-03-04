@@ -70,38 +70,19 @@
      KW_UNTIL = 286,
      KW_WRITE = 287,
      KW_WRITELINE = 288,
-     ADD = 289,
-     SUB = 290,
-     MUL = 291,
-     DIV = 292,
-     MOD = 293,
-     EXP = 294,
-     EQUALS = 295,
-     ADD_EQ = 296,
-     SUB_EQ = 297,
-     MUL_EQ = 298,
-     DIV_EQ = 299,
-     MOD_EQ = 300,
-     EXP_EQ = 301,
-     INCREMENT = 302,
-     DECREMENT = 303,
-     IS_EQ_TO = 304,
-     LESSTHAN = 305,
-     GREATERTHAN = 306,
-     LTorEQ = 307,
-     GTorEQ = 308,
-     NOT_EQ = 309,
-     IDENTIFIER = 310,
-     OPEN_PAREN = 311,
-     CLOSE_PAREN = 312,
-     OPEN_BRACE = 313,
-     CLOSE_BRACE = 314,
-     OPEN_BRACKET = 315,
-     CLOSE_BRACKET = 316,
-     MEMBER = 317,
-     SEPARATOR = 318,
-     END_STMT = 319,
-     COMMENT = 320
+     ADD_EQ = 289,
+     SUB_EQ = 290,
+     MUL_EQ = 291,
+     DIV_EQ = 292,
+     MOD_EQ = 293,
+     EXP_EQ = 294,
+     INCREMENT = 295,
+     DECREMENT = 296,
+     IS_EQ_TO = 297,
+     LTorEQ = 298,
+     GTorEQ = 299,
+     NOT_EQ = 300,
+     IDENTIFIER = 301
    };
 #endif
 
@@ -112,7 +93,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 16 "parser.y"
+#line 18 "parser.y"
 
 	int intVal;
 	double dblVal;
@@ -122,7 +103,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 126 "parser.h"
+#line 107 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

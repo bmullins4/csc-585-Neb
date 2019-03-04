@@ -1,0 +1,7 @@
+
+//this is a normal comment
+//this//is//a//weird//comment//idk//why//you'd//do//something//like//this
+//////////////////////////
+//hello//
+//
+/this is not a valid comment/

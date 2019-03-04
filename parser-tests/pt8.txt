@@ -1,0 +1,9 @@
+
+//test with object data types
+//as of right now, it should work with or without declaring a class
+//because I have not implemented actions yet
+
+class A(int a) []
+
+A testA = new A(a);
+B testB = new B();

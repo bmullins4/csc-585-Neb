@@ -1,0 +1,20 @@
+
+//test with multiple errors
+//should stop at first syntax error
+//first error - line 8, no identifier after string
+//second error - line 20, should be write(line) instead of print
+
+class InputClass() [
+	
+	function getInput(string, int a, int b, int c) [
+		
+		return [
+			prompt(inputStr) input [
+				a, b, c
+			];
+		];
+	]
+]
+
+InputClass myInput = new InputClass();
+print(myInput.getInput("Enter 3 numbers"));

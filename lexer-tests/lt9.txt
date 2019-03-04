@@ -1,0 +1,18 @@
+
+//test to see how it handles operators next to each other
+
+//spaced out
++ - * / % ^ += -= *= /= %= ^= ++ -- = < > <= >= == !=
+
+//put together
++-*/%^+=-=*=/=%=^=++--=<><=>===!=
+
+//put together different order
+//line 11: col 16-17 should output EXP_EQ, which is incorrect
+//it's supposed to be EXP and EQUALS separately
+//but bc ^= is a valid token, it will output the former
+!=+==->=*<=/>%<^=+=---=++*=^=/=%=
+
+//doubled up
+//++ -- == and // will be seen as different valid tokens
+++ -- ** %% ^^ << >> == //

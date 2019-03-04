@@ -1,6 +1,4 @@
 
-%option noyywrap
-
 %{
 	#include <iostream>
 	#include <cmath>
@@ -10,9 +8,11 @@
 	using namespace std;
 %}
 
+%option noyywrap
+
 /* Literals */
-INTEGER			[0-9]+
-DECIMAL			[0-9]+\.[0-9]+
+INTEGER			-?[0-9]+
+DECIMAL			-?[0-9]+\.[0-9]+
 STRING			\"[^"]*\"
 BOOLEAN			"true"|"false"
 
@@ -52,13 +52,6 @@ COMMENT			"//".*
 "write"			{ cout << "KW_WRITE: " << yytext << endl; return KW_WRITE; }
 "writeline"		{ cout << "KW_WRITELINE: " << yytext << endl; return KW_WRITELINE; }
 
-"+"		{ cout << "ADD: " << yytext << endl; return ADD; }
-"-"		{ cout << "SUB: " << yytext << endl; return SUB; }
-"*"		{ cout << "MUL: " << yytext << endl; return MUL; }
-"/"		{ cout << "DIV: " << yytext << endl; return DIV; }
-"%"		{ cout << "MOD: " << yytext << endl; return MOD; }
-"^"		{ cout << "EXP: " << yytext << endl; return EXP; }
-"="		{ cout << "EQUALS: " << yytext << endl; return EQUALS; }
 "+="	{ cout << "ADD_EQ: " << yytext << endl; return ADD_EQ; }
 "-="	{ cout << "SUB_EQ: " << yytext << endl; return SUB_EQ; }
 "*="	{ cout << "MUL_EQ: " << yytext << endl; return MUL_EQ; }
@@ -68,22 +61,15 @@ COMMENT			"//".*
 "++"	{ cout << "INCREMENT: " << yytext << endl; return INCREMENT; }
 "--"	{ cout << "DECREMENT: " << yytext << endl; return DECREMENT; }
 "=="	{ cout << "IS_EQ_TO: " << yytext << endl; return IS_EQ_TO; }
-"<"		{ cout << "LESSTHAN: " << yytext << endl; return LESSTHAN; }
-">"		{ cout << "GREATERTHAN: " << yytext << endl; return GREATERTHAN; }
+"<"		{ cout << "LESSTHAN: " << yytext << endl; return yytext[0]; }
+">"		{ cout << "GREATERTHAN: " << yytext << endl; return yytext[0]; }
 "<="	{ cout << "LTorEQ: " << yytext << endl; return LTorEQ; }
 ">="	{ cout << "GTorEQ: " << yytext << endl; return GTorEQ; }
 "!="	{ cout << "NOT_EQ: " << yytext << endl; return NOT_EQ; }
 
-"("		{ cout << "OPEN_PAREN: " << yytext << endl; return OPEN_PAREN; }
-")"		{ cout << "CLOSE_PAREN: " << yytext << endl; return CLOSE_PAREN; }
-"["		{ cout << "OPEN_BRACE: " << yytext << endl; return OPEN_BRACE; }
-"]"		{ cout << "CLOSE_BRACE: " << yytext << endl; return CLOSE_BRACE; }
-"{"		{ cout << "OPEN_BRACKET: " << yytext << endl; return OPEN_BRACKET; }
-"}"		{ cout << "CLOSE_BRACKET: " << yytext << endl; return CLOSE_BRACKET; }
-
-"."		{ cout << "MEMBER: " << yytext << endl; return MEMBER; }
-","		{ cout << "SEPARATOR: " << yytext << endl; return SEPARATOR; }
-";"		{ cout << "END_STMT: " << yytext << endl; return END_STMT; }
+"."		{ cout << "MEMBER: " << yytext << endl; return yytext[0]; }
+","		{ cout << "SEPARATOR: " << yytext << endl; return yytext[0]; }
+";"		{ cout << "SEMI_COLON: " << yytext << endl; return yytext[0]; }
 
 {INTEGER}		{ 
 					yylval.intVal = atoi(yytext); 
@@ -103,10 +89,16 @@ COMMENT			"//".*
 {BOOLEAN}		{
 					if(yytext == "true") yylval.boolVal = true;
 					if(yytext == "false") yylval.boolVal = false;
-					cout << "BOOLEAN: " << yytext << endl; 
+					cout << "BOOLEAN: " << yytext << endl;
+					return BOOLEAN; 
 				}
 {IDENTIFIER}	{ cout << "IDENTIFIER: " << yytext << endl; return IDENTIFIER; }
-{COMMENT}		{ cout << "COMMENT: " << yytext << endl; return COMMENT; }
+{COMMENT}		{ cout << "COMMENT: " << yytext << endl; }
+
+[\[({]			{ cout << "OPEN_BRACKET: " << yytext << endl; return yytext[0]; }
+[\])}]			{ cout << "CLOSE_BRACKET: " << yytext << endl; return yytext[0]; }
+
+[+*/%\^=-]		{ cout << "OPERATOR: " << yytext << endl; return yytext[0]; }
 
 [ \t\n]+		{ }
 .				{ cout << "Unkown Token: " << yytext << endl; }

@@ -1,0 +1,6 @@
+
+//test class with no brackets
+//this should cause it to fail
+
+class someClass()
+	int abc = 2;

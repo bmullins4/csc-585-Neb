@@ -1,0 +1,10 @@
+
+//test with empty classes and functions
+
+class c1() []
+class c2(int p) []
+class c3(int p1, double p2, string p3, boolean p4) []
+
+function f1() []
+function f2(int p) []
+function f3(int p1, double p2, string p3, boolean p4) []

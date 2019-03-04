@@ -1,0 +1,29 @@
+
+int num1 = 10;
+double num2 = 10.2;
+sum = num2 + num1;
+
+function funct1() [
+	
+	string str = "test string";
+	boolean bool = true;
+
+	loop [
+		writeline(str);
+		bool = flase;
+	] until(bool == false);
+]
+
+function area(int x, int y) [
+	
+	int area = x * y;
+	return area;
+]
+
+class TestClass() [
+
+	function main(double value) [
+		
+		prompt("Enter a double") input [ value ];
+	]
+]

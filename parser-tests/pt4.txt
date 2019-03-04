@@ -1,0 +1,8 @@
+
+//missing brace not eof
+
+function printNums() [
+	for(int i to 20) [
+		writeline(i);
+	
+]

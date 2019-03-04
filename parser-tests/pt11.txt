@@ -1,0 +1,37 @@
+
+//test with invalid choice syntax
+//last choice statement contains the error
+
+choice(someStrStmt) [
+	"A" {write("do something");}
+	otherwise {write("do something else");}
+];
+
+choice(someBoolStmt) [
+	true {return true;}
+	false {return false;}
+];
+
+choice(someNum) [
+	1	{
+			someNum = 1;
+			write(someNum);
+		}
+	2	{
+			someNum = 2;
+			write(someNum);
+		}
+	3	{
+			someNum = 3;
+			write(someNum);
+		}
+	4	{
+			someNum = 4;
+			write(someNum);
+		}
+];
+
+//this should fail because there is only a default statement
+choice(something) [
+	otherwise {return 0;}
+];

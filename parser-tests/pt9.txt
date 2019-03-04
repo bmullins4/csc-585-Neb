@@ -1,0 +1,3 @@
+
+//test for invalid indentifier names
+int 2pac = 12;

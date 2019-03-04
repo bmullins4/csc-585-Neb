@@ -13,6 +13,8 @@
 	using namespace std;
 %}
 
+%error-verbose
+
 %union {
 	int intVal;
 	double dblVal;
@@ -56,13 +58,6 @@
 %token KW_WRITELINE
 
 /* Operations */
-%token ADD
-%token SUB
-%token MUL
-%token DIV
-%token MOD
-%token EXP
-%token EQUALS
 %token ADD_EQ
 %token SUB_EQ
 %token MUL_EQ
@@ -72,28 +67,12 @@
 %token INCREMENT
 %token DECREMENT
 %token IS_EQ_TO
-%token LESSTHAN
-%token GREATERTHAN
 %token LTorEQ
 %token GTorEQ
 %token NOT_EQ
 
 /* Identifier */
 %token IDENTIFIER
-
-/* Braces */
-%token OPEN_PAREN
-%token CLOSE_PAREN
-%token OPEN_BRACE
-%token CLOSE_BRACE
-%token OPEN_BRACKET
-%token CLOSE_BRACKET
-
-/* Misc */
-%token MEMBER
-%token SEPARATOR
-%token END_STMT
-%token COMMENT
 
 %left '+' '-'
 %left '*' '/' '%'
@@ -127,12 +106,15 @@ statement:	assignment
 
 assignment:	var ';'
 			| var small_op ';'
+			| var '=' literal ';'
 			| var '=' expression ';'
 			| var '=' KW_NULL ';'
 			| var op_equal expression ';'
 			| IDENTIFIER small_op ';'
 			| IDENTIFIER '=' expression ';'
+			| IDENTIFIER '=' literal ';'
 			| IDENTIFIER op_equal expression ';'
+			| IDENTIFIER op_equal literal ';'
 			| KW_THIS '.' IDENTIFIER '=' literal ';'
 			| KW_THIS '.' IDENTIFIER '=' IDENTIFIER ';'
 			;
@@ -144,10 +126,10 @@ data_type:	KW_INT
 			| KW_DOUBLE
 			| KW_STRING
 			| KW_BOOLEAN
+			| IDENTIFIER	/* should probably create a separate object identifier type. but this will work for now */
 			;
 
 expression:	add_sub
-			| bool
 			| obj_assign
 			;
 
@@ -168,11 +150,9 @@ expnt:		paren
 
 paren:		INTEGER
 			| DECIMAL
+			| IDENTIFIER
 			| '(' add_sub ')'
 			| '(' conditions ')'
-			;
-
-bool:		BOOLEAN
 			;
 
 op_equal:	ADD_EQ		
@@ -225,8 +205,8 @@ conditions:	expression cond_op expression
 			| KW_NOT conditions
 			;
 
-cond_op:	LESSTHAN
-			| GREATERTHAN
+cond_op:	'<'
+			| '>'
 			| IS_EQ_TO
 			| LTorEQ
 			| GTorEQ
@@ -244,18 +224,18 @@ choice_expr:	literal '{' statements '}'
 break:		KW_BREAK ';'
 			;
 
-class:		KW_CLASS '(' ')' '[' statements ']'
-			| KW_CLASS '(' parameters ')' '[' statements ']'
+class:		KW_CLASS IDENTIFIER '(' ')' '[' statements ']'
+			| KW_CLASS IDENTIFIER '(' parameters ')' '[' statements ']'
 			;
 
-function:	KW_FUNCTION '(' ')' '[' statements ']'
-			| KW_FUNCTION '(' parameters ')' '[' statements ']'
+function:	KW_FUNCTION IDENTIFIER '(' ')' '[' statements ']'
+			| KW_FUNCTION IDENTIFIER '(' parameters ')' '[' statements ']'
 			;
 
 parameters:	var
-			| var parameters
+			| var ',' parameters
 			| IDENTIFIER
-			| IDENTIFIER parameters
+			| IDENTIFIER ',' parameters
 			;
 
 import:		KW_IMPORT package ';'
@@ -265,10 +245,7 @@ package:	IDENTIFIER
 			| IDENTIFIER '.' package
 			;
 
-loop:		loop_type
-			;
-
-loop_type:	default
+loop:		default
 			| forloop
 			;
 
@@ -278,6 +255,8 @@ default:	KW_LOOP '[' statements ']' KW_UNTIL '(' conditions ')' ';'
 
 forloop:	KW_FOR '(' IDENTIFIER KW_TO INTEGER ')' '[' statements ']'
 			| KW_FOR '(' IDENTIFIER KW_TO DECIMAL ')' '[' statements ']'
+			| KW_FOR '(' var KW_TO INTEGER ')' '[' statements ']'
+			| KW_FOR '(' var KW_TO DECIMAL ')' '[' statements ']'
 			;
 
 print:		KW_WRITE '(' write_expr ')' ';'
@@ -296,7 +275,7 @@ prompt:		KW_PROMPT '(' STRING ')' input ';'
 			| KW_PROMPT '(' IDENTIFIER ')' input ';'
 			;
 
-input:		KW_INPUT '[' input_list ']' ';'
+input:		KW_INPUT '[' input_list ']'
 			;
 
 input_list:	IDENTIFIER
@@ -305,12 +284,14 @@ input_list:	IDENTIFIER
 
 return_stmt:	KW_RETURN literal ';'
 				| KW_RETURN IDENTIFIER ';'
+				| KW_RETURN KW_NULL ';'
 				| KW_RETURN '[' return_list ']' ';'
 				;
 
 return_list:	literal
 				| IDENTIFIER
-				| '[' statements ']'
+				| KW_NULL
+				| statements
 				;
 
 literal:	INTEGER

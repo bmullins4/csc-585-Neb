@@ -1,7 +1,6 @@
 
 //test with multiple errors
-//should stop at first syntax error
-//first error - line 8, no identifier after string
+//first error - line 9, no identifier after string
 //second error - line 20, should be write(line) instead of print
 
 class InputClass() [

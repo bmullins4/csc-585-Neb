@@ -74,228 +74,280 @@
 /* Identifier */
 %token IDENTIFIER
 
+%right '='
 %left '+' '-'
 %left '*' '/' '%'
 %right '^'
 
 %%
 
-program:	file
-			;
+program
+	: file
+	;
 
-file:		statements
-			;
+file
+	: /* empty */
+	| statements
+	;
 
-statements:	/* empty */
-			| statement
-			| statements statement
-			;
+statements
+	: statement
+	| statements statement
+	;
 
-statement:	assignment
-			| array
-			| branch
-			| break
-			| class
-			| function
-			| import
-			| loop
-			| print
-			| prompt
-			| return_stmt
-			;
+statement
+	: assignment
+	| branch
+	| break
+	| class
+	| function
+	| import
+	| loop
+	| print
+	| prompt
+	| return
+	;
 
-assignment:	var ';'
-			| var small_op ';'
-			| var '=' literal ';'
-			| var '=' expression ';'
-			| var '=' KW_NULL ';'
-			| var op_equal expression ';'
-			| IDENTIFIER small_op ';'
-			| IDENTIFIER '=' expression ';'
-			| IDENTIFIER '=' literal ';'
-			| IDENTIFIER op_equal expression ';'
-			| IDENTIFIER op_equal literal ';'
-			| KW_THIS '.' IDENTIFIER '=' literal ';'
-			| KW_THIS '.' IDENTIFIER '=' IDENTIFIER ';'
-			;
+assignment
+	: var_assign
+	| arr_assign
+	| ident_assign
+	| obj_assign
+	;
 
-var:		data_type IDENTIFIER
-			;
+var_assign
+	: var ';'
+	| var small_op ';'
+	| var '=' expression ';'
+	| var '=' IDENTIFIER '[' INTEGER ']' ';'
+	| var op_equal expression ';'
+	;
 
-data_type:	KW_INT
-			| KW_DOUBLE
-			| KW_STRING
-			| KW_BOOLEAN
-			| IDENTIFIER	/* should probably create a separate object identifier type. but this will work for now */
-			;
+arr_assign
+	: var '=' '[' ']' ';'
+	| var '=' '[' arr_content ']' ';'
+	| IDENTIFIER '=' '[' ']' ';'
+	| IDENTIFIER '=' '[' arr_content ']' ';'
+	;
 
-expression:	add_sub
-			| obj_assign
-			;
+arr_content
+	: literal
+	| IDENTIFIER
+	| arr_content ',' literal
+	| arr_content ',' IDENTIFIER
+	;
 
-add_sub:	mul_div
-			| add_sub '+' mul_div
-			| add_sub '-' mul_div
-			;
+ident_assign
+	: IDENTIFIER small_op ';'
+	| IDENTIFIER '=' expression ';'
+	| IDENTIFIER '=' IDENTIFIER '[' INTEGER ']' ';'
+	| IDENTIFIER op_equal expression ';'
+	| IDENTIFIER op_equal IDENTIFIER '[' INTEGER ']' ';'
+	| KW_THIS '.' IDENTIFIER '=' IDENTIFIER ';'
+	;
 
-mul_div:	expnt
-			| mul_div '*' expnt
-			| mul_div '/' expnt
-			| mul_div '%' expnt
-			;
+obj_assign
+	: var '=' KW_NEW IDENTIFIER '(' ')' ';'
+	| var '=' KW_NEW IDENTIFIER '(' parameters ')' ';'
+	| var '=' KW_NULL ';'
+	;
 
-expnt:		paren
-			| expnt '^' paren
-			;
+var
+	: data_type IDENTIFIER
+	| data_type '[' ']' IDENTIFIER
+	| data_type '[' INTEGER ']' IDENTIFIER
+	;
 
-paren:		INTEGER
-			| DECIMAL
-			| IDENTIFIER
-			| '(' add_sub ')'
-			| '(' conditions ')'
-			;
+data_type
+	: KW_INT
+	| KW_DOUBLE
+	| KW_STRING
+	| KW_BOOLEAN
+	| IDENTIFIER	/* should probably create a separate object identifier type. but this will work for now */
+	;
 
-op_equal:	ADD_EQ		
-			| SUB_EQ	
-			| MUL_EQ	
-			| DIV_EQ	
-			| MOD_EQ	
-			| EXP_EQ	
-			;
+expression
+	: literal
+	| add_sub
+	;
 
-small_op:	INCREMENT		
-			| DECREMENT		
-			;
+add_sub
+	: mul_div
+	| add_sub '+' mul_div
+	| add_sub '-' mul_div
+	;
 
-obj_assign:	KW_NEW IDENTIFIER '(' ')'
-			| KW_NEW IDENTIFIER '(' parameters ')'
-			;
-			
-array:		var '=' '[' arr_content ']' ';'
-			| IDENTIFIER '=' '[' arr_content ']' ';'
-			;
+mul_div
+	: expnt
+	| mul_div '*' expnt
+	| mul_div '/' expnt
+	| mul_div '%' expnt
+	;
 
-arr_content:	/* empty */
-				| literal
-				| IDENTIFIER
-				| literal ',' arr_content
-				| IDENTIFIER ',' arr_content
-				;
+expnt
+	: paren
+	| expnt '^' paren
+	;
 
-branch:		if_stmt
-			| choice_stmt
-			;
+paren
+	: '(' add_sub ')'
+	| '(' conditions ')'
+	;
 
-if_stmt:	req_if_stmt
-			| req_if_stmt opt_if_stmt
-			;
+op_equal
+	: ADD_EQ		
+	| SUB_EQ	
+	| MUL_EQ	
+	| DIV_EQ	
+	| MOD_EQ	
+	| EXP_EQ	
+	;
 
-req_if_stmt:	KW_IF '(' conditions ')' '[' statements ']'
-				;
+small_op
+	: INCREMENT		
+	| DECREMENT		
+	;
 
-opt_if_stmt:	KW_UNLESS '(' conditions ')' '[' statements ']'
-				| KW_OTHERWISE '[' statements ']'
-				;
+branch
+	: if_stmt
+	| choice_stmt
+	;
 
-conditions:	expression cond_op expression
-			| conditions KW_AND conditions
-			| conditions KW_OR conditions
-			| expression cond_op expression KW_AND conditions
-			| expression cond_op expression KW_OR conditions
-			| KW_NOT conditions
-			;
+if_stmt
+	: KW_IF '(' conditions ')' '[' statements ']'
+	| KW_IF '(' conditions ')' '[' statements ']' unless_stmt
+	;
 
-cond_op:	'<'
-			| '>'
-			| IS_EQ_TO
-			| LTorEQ
-			| GTorEQ
-			| NOT_EQ
-			;
+unless_stmt
+	: KW_UNLESS '(' conditions ')' '[' statements ']'
+	| unless_stmt KW_OTHERWISE '[' statements ']'
+	;
 
-choice_stmt:	KW_CHOICE '(' IDENTIFIER ')' '[' choice_expr ']' ';'
-				;
+conditions
+	: condition
+	| conditions condition
+	;
 
-choice_expr:	literal '{' statements '}'
-				| choice_expr literal '{' statements '}'
-				| choice_expr KW_OTHERWISE '{' statements '}'
-				;
+condition
+	: expression cond_op expression
+	| expression KW_AND expression
+	| expression KW_OR expression
+	| KW_NOT condition
+	;
 
-break:		KW_BREAK ';'
-			;
+cond_op
+	: '<'
+	| '>'
+	| IS_EQ_TO
+	| LTorEQ
+	| GTorEQ
+	| NOT_EQ
+	;
 
-class:		KW_CLASS IDENTIFIER '(' ')' '[' statements ']'
-			| KW_CLASS IDENTIFIER '(' parameters ')' '[' statements ']'
-			;
+choice_stmt
+	: KW_CHOICE '(' IDENTIFIER ')' '[' choice_expr ']' ';'
+	;
 
-function:	KW_FUNCTION IDENTIFIER '(' ')' '[' statements ']'
-			| KW_FUNCTION IDENTIFIER '(' parameters ')' '[' statements ']'
-			;
+choice_expr
+	: literal '{' statements '}'
+	| choice_expr literal '{' statements '}'
+	| choice_expr KW_OTHERWISE '{' statements '}'
+	;
 
-parameters:	var
-			| var ',' parameters
-			| IDENTIFIER
-			| IDENTIFIER ',' parameters
-			;
+break
+	: KW_BREAK ';'
+	;
 
-import:		KW_IMPORT package ';'
-			;
+class
+	: KW_CLASS IDENTIFIER '(' ')' '[' statements ']'
+	| KW_CLASS IDENTIFIER '(' parameters ')' '[' statements ']'
+	;
 
-package:	IDENTIFIER
-			| IDENTIFIER '.' package
-			;
+function
+	: KW_FUNCTION IDENTIFIER '(' ')' '[' statements ']'
+	| KW_FUNCTION IDENTIFIER '(' parameters ')' '[' statements ']'
+	;
 
-loop:		default
-			| forloop
-			;
+parameters
+	: var
+	| IDENTIFIER
+	| parameters ',' var
+	| parameters ',' IDENTIFIER
+	;
 
-default:	KW_LOOP '[' statements ']' KW_UNTIL '(' conditions ')' ';'
-			| KW_LOOP '[' statements ']' KW_UNTIL '(' conditions ')' KW_UNLESS '(' conditions ')' '[' statements ']' ';'
-			;
+import
+	: KW_IMPORT package ';'
+	;
 
-forloop:	KW_FOR '(' IDENTIFIER KW_TO INTEGER ')' '[' statements ']'
-			| KW_FOR '(' IDENTIFIER KW_TO DECIMAL ')' '[' statements ']'
-			| KW_FOR '(' var KW_TO INTEGER ')' '[' statements ']'
-			| KW_FOR '(' var KW_TO DECIMAL ')' '[' statements ']'
-			;
+package
+	: IDENTIFIER
+	| package '.' IDENTIFIER
+	;
 
-print:		KW_WRITE '(' write_expr ')' ';'
-			| KW_WRITELINE '(' write_expr ')' ';'
-			;
+loop
+	: default
+	| forloop
+	;
 
-write_expr:	literal
-			| IDENTIFIER
-			| expression
-			| literal ',' write_expr
-			| IDENTIFIER ',' write_expr
-			| expression ',' write_expr
-			;
+default
+	: KW_LOOP '[' statements ']' KW_UNTIL '(' conditions ')' ';'
+	| KW_LOOP '[' statements ']' KW_UNTIL '(' conditions ')' KW_UNLESS '(' conditions ')' '[' statements ']' ';'
+	;
 
-prompt:		KW_PROMPT '(' STRING ')' input ';'
-			| KW_PROMPT '(' IDENTIFIER ')' input ';'
-			;
+forloop
+	: KW_FOR '(' IDENTIFIER KW_TO INTEGER ')' '[' statements ']'
+	| KW_FOR '(' var KW_TO INTEGER ')' '[' statements ']'
+	;
 
-input:		KW_INPUT '[' input_list ']'
-			;
+print
+	: KW_WRITE '(' write_expr ')' ';'
+	| KW_WRITELINE '(' write_expr ')' ';'
+	;
 
-input_list:	IDENTIFIER
-			| IDENTIFIER ',' input_list
-			;
+write_expr
+	: expression
+	| write_expr ',' expression
+	;
 
-return_stmt:	KW_RETURN literal ';'
-				| KW_RETURN IDENTIFIER ';'
-				| KW_RETURN KW_NULL ';'
-				| KW_RETURN '[' return_list ']' ';'
-				;
+prompt
+	: KW_PROMPT '(' STRING ')' input ';'
+	| KW_PROMPT '(' IDENTIFIER ')' input ';'
+	;
 
-return_list:	literal
-				| IDENTIFIER
-				| KW_NULL
-				| statements
-				;
+input
+	: KW_INPUT '[' input_list ']'
+	;
 
-literal:	INTEGER
-			| DECIMAL
-			| STRING
-			| BOOLEAN
-			;
+input_list
+	: IDENTIFIER
+	| IDENTIFIER ',' input_list
+	;
+
+return
+	: KW_RETURN literal ';'
+	| KW_RETURN IDENTIFIER ';'
+	| KW_RETURN KW_NULL ';'
+	| KW_RETURN '[' return_list ']' ';'
+	;
+
+return_list
+	: literal
+	| IDENTIFIER
+	| KW_NULL
+	| statements
+	;
+
+literal
+	: number
+	| non_number
+	;
+	
+number	
+	: INTEGER
+	| DECIMAL
+	; 
+	
+non_number	
+	: STRING
+	| BOOLEAN
+	;

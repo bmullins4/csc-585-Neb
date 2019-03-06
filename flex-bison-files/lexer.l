@@ -1,7 +1,6 @@
 
 %{
 	#include <iostream>
-	#include <cmath>
 	#include <string>
 	#include "parser.h"
 
@@ -101,4 +100,4 @@ COMMENT			"//".*
 [+*/%\^=-]		{ cout << "OPERATOR: " << yytext << endl; return yytext[0]; }
 
 [ \t\n]+		{ }
-.				{ cout << "Unkown Token: " << yytext << endl; }
+.				{ cout << "Unkown Token: " << yytext << endl; yyterminate(); }

@@ -1,0 +1,32 @@
+
+//test with ridiculous white space
+
+class
+
+				someClass	(
+				)
+
+	[
+	
+	
+			int       
+			
+			a		= 2;
+
+
+			function
+
+
+
+
+			testFunct			
+				(int 
+				a							)
+			[
+			
+															return 
+															"hello"
+															;
+			
+]
+	]

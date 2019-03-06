@@ -19,14 +19,14 @@ void readFiles(char *filename) {
 		cout << "Cannot open file: " << filename << endl;
 	else
 		//while (yylex());
-		yyparse();
+		while(yyparse()); //once actions are implemented, yyparse will not be in while loop
 
 	fclose(yyin);
 }
 
 void start() {
 
-	int length = 11, input;
+	int lex_length = 10, parse_length = 13, input;
 
 	char *lex_testing_files[] = {
 		"lt1.txt", "lt2.txt", "lt3.txt", "lt4.txt", "lt5.txt",
@@ -35,14 +35,14 @@ void start() {
 	char *parse_testing_files[] = {
 		"pt1.txt", "pt2.txt", "pt3.txt", "pt4.txt", "pt5.txt",
 		"pt6.txt", "pt7.txt", "pt8.txt", "pt9.txt", "pt10.txt",
-		"pt11.txt"
+		"pt11.txt", "pt12.txt", "pt13.txt"
 	};
 
 	while (true) {
 		cout << flush;
 		system("CLS");
 		int j = 1;
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < parse_length; i++)
 			//cout << "[" << j++ << "] " << lex_testing_files[i] << endl;
 			cout << "[" << j++ << "] " << parse_testing_files[i] << endl;
 		cout << "Enter file to test or -1 to exit: ";

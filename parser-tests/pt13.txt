@@ -1,0 +1,4 @@
+
+//test with long math expressions
+
+double x = 2 * 2 + (3 / 4^8) - 1 % 5^(12 / 2);

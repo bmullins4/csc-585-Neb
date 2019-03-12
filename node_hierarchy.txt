@@ -1,0 +1,22 @@
+
+<<Node Hierarchy>>
+
+node:
+	program
+	statement:
+		assignment
+		branch
+		break
+		class
+		function
+		import
+		loop
+		print
+		prompt
+		return
+	expression:
+		identifier
+		integer
+		decimal
+		string
+		boolean

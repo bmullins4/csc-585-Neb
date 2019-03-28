@@ -43,46 +43,48 @@
      DECIMAL = 259,
      STRING = 260,
      BOOLEAN = 261,
-     KW_AND = 262,
-     KW_BOOLEAN = 263,
-     KW_BREAK = 264,
-     KW_CHOICE = 265,
-     KW_CLASS = 266,
-     KW_DOUBLE = 267,
-     KW_FOR = 268,
-     KW_FUNCTION = 269,
-     KW_IF = 270,
-     KW_IMPORT = 271,
-     KW_INPUT = 272,
-     KW_INT = 273,
-     KW_LOOP = 274,
-     KW_NEW = 275,
-     KW_NOT = 276,
-     KW_NULL = 277,
-     KW_OR = 278,
-     KW_OTHERWISE = 279,
-     KW_PROMPT = 280,
-     KW_RETURN = 281,
-     KW_STRING = 282,
-     KW_THIS = 283,
-     KW_TO = 284,
-     KW_UNLESS = 285,
-     KW_UNTIL = 286,
-     KW_WRITE = 287,
-     KW_WRITELINE = 288,
-     ADD_EQ = 289,
-     SUB_EQ = 290,
-     MUL_EQ = 291,
-     DIV_EQ = 292,
-     MOD_EQ = 293,
-     EXP_EQ = 294,
-     INCREMENT = 295,
-     DECREMENT = 296,
-     IS_EQ_TO = 297,
-     LTorEQ = 298,
-     GTorEQ = 299,
-     NOT_EQ = 300,
-     IDENTIFIER = 301
+     IDENTIFIER = 262,
+     KW_INT = 263,
+     KW_DOUBLE = 264,
+     KW_STRING = 265,
+     KW_BOOLEAN = 266,
+     KW_AND = 267,
+     KW_OR = 268,
+     KW_NOT = 269,
+     KW_BREAK = 270,
+     KW_CHOICE = 271,
+     KW_CLASS = 272,
+     KW_FOR = 273,
+     KW_FUNCTION = 274,
+     KW_IF = 275,
+     KW_IMPORT = 276,
+     KW_INPUT = 277,
+     KW_LOOP = 278,
+     KW_NEW = 279,
+     KW_NULL = 280,
+     KW_OTHERWISE = 281,
+     KW_PROMPT = 282,
+     KW_RETURN = 283,
+     KW_THIS = 284,
+     KW_TO = 285,
+     KW_UNLESS = 286,
+     KW_UNTIL = 287,
+     KW_WRITE = 288,
+     KW_WRITELINE = 289,
+     ADD_EQ = 290,
+     SUB_EQ = 291,
+     MUL_EQ = 292,
+     DIV_EQ = 293,
+     MOD_EQ = 294,
+     EXP_EQ = 295,
+     INCREMENT = 296,
+     DECREMENT = 297,
+     IS_EQ_TO = 298,
+     LTorEQ = 299,
+     GTorEQ = 300,
+     NOT_EQ = 301,
+     NO_OTHERWISE = 302,
+     NO_UNLESS = 303
    };
 #endif
 
@@ -93,17 +95,41 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 18 "parser.y"
+#line 19 "parser.y"
 
-	int intVal;
-	double dblVal;
-	char *strVal;
-	bool boolVal;
+	struct ast_node* ast;
+	struct ast_datatype_node* dt;
+	struct ast_int_node* ival;
+	struct ast_decimal_node* dval;
+	struct ast_string_node* sval;
+	struct ast_boolean_node* bval;
+	struct ast_ident_node* ident;
+	struct ast_assignment_node* assign;
+	struct ast_small_assign_node* s_assign;
+	struct ast_opeq_assign_node* o_assign;
+	struct ast_declaration_node* decl;
+	struct ast_conditional_node* conditional;
+	struct ast_equality_node* equality;
+	struct ast_fc_node* fc;
+	struct ast_if_node* ifs;
+	struct ast_choice_node* choices;
+	struct ast_package_node* pkg;
+	struct ast_default_loop_node* dl;
+	struct ast_for_loop_node* fl;
+	struct ast_print_node* prnt;
+	struct ast_prompt_node* prmpt;
+	struct ast_input_node* inpt;
+	struct ast_return_node* rtn;
+
+	int integer;
+	double decimal;
+	char* str;
+	bool boolean;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 107 "parser.h"
+#line 133 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

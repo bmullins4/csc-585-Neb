@@ -77,9 +77,9 @@
 %left '*' '/' '%'
 %right '^'
 
-%type <ast> statements arr_content expression conditions choice_expr var
+%type <ast> statements arr_content expression conditions choice_expr var branch
 %type <ast> parameters package write_expr input_list unless_stmt return_list
-%type <ast> statement file program number non_number literal
+%type <ast> statement file program number non_number literal break loop
 %type <dt> data_type
 %type <assign> assignment var_assign arr_assign ident_assign obj_assign
 %type <s_assign> small_op
@@ -109,22 +109,22 @@ file
 	;
 
 statements
-	: statement
+	: statement				{ $$ = $1; }
 	| statements statement	{ $$ = new_node("L", $1, $2); }
 	;
 
 statement
-	: assignment
-	| branch
-	| break
-	| class
-	| declaration
-	| function
-	| import
-	| loop
-	| print
-	| prompt
-	| return
+	: assignment		{ $$ = $1; }
+	| branch			{ $$ = $1; }
+	| break				{ $$ = $1; }
+	| class				{ $$ = $1; }
+	| declaration		{ $$ = $1; }
+	| function			{ $$ = $1; }
+	| import			{ $$ = $1; }
+	| loop				{ $$ = $1; }
+	| print				{ $$ = $1; }
+	| prompt			{ $$ = $1; }
+	| return			{ $$ = $1; }
 	;
 
 assignment

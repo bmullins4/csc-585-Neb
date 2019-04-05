@@ -243,114 +243,90 @@ void free_tree_mem(ast_node* tree) {
 
 	if (!tree) return;
 
-	//normally I'd usea switch/case, but c++ doesn't like that with strings...
-	//this is my adhoc work around. I only use this loop for the break functionality
-	//it never loops more than once
-	while (true) {
-		if (tree -> node_type == "+" || tree -> node_type == "-" ||
-			tree -> node_type == "*" || tree -> node_type == "/" ||
-			tree -> node_type == "%" || tree -> node_type == "^" ||
-			tree -> node_type == "L") {
-			free_tree_mem(tree -> right);
-		} else if(tree->node_type == "LIT" || tree->node_type == "IDRF") break;
-		else if(tree -> node_type == "ASSIGN") {
-			ast_assignment_node* node = (ast_assignment_node*)tree;
-			free_tree_mem(node -> ident);
-			free_tree_mem(node -> value);
-			break;
-		} else if(tree -> node_type == "S_ASSIGN") {
-			ast_small_assign_node* node = (ast_small_assign_node*)tree;
-			free_tree_mem(node -> ident);
-			break;
-		} else if(tree -> node_type == "O_ASSIGN") {
-			ast_opeq_assign_node* node = (ast_opeq_assign_node*)tree;
-			free_tree_mem(node -> ident);
-			free_tree_mem(node -> value);
-			break;
-		} else if(tree -> node_type == "DECL") {
-			ast_declaration_node* node = (ast_declaration_node*)tree;
-			free_tree_mem(node -> name);
-			break;
-		} else if(tree -> node_type == "COND") {
-			ast_conditional_node* node = (ast_conditional_node*)tree;
-			free_tree_mem(node -> left);
-			free_tree_mem(node -> right);
-			break;
-		} else if(tree -> node_type == "FC") {
-			ast_fc_node* node = (ast_fc_node*)tree;
-			free_tree_mem(node -> name);
-			if(node -> params)
-				free_tree_mem(node -> params);
-			break;
-		} else if(tree -> node_type == "IF") {
-			ast_if_node* node = (ast_if_node*)tree;
-			free_tree_mem(node -> cond);
-			if(node -> if_branch)
-				free_tree_mem(node -> if_branch);
-			if(node -> unless_branch)
-				free_tree_mem(node -> unless_branch);
-			break;
-		} else if(tree -> node_type == "CHOICE") {
-			ast_choice_node* node = (ast_choice_node*)tree;
-			if(node -> choice_expr)
-				free_tree_mem(node -> choice_expr);
-			if(node -> choice_otherwise)
-				free_tree_mem(node -> choice_otherwise);
-			break;
-		} else if(tree -> node_type == "UNLESS") {
-			ast_unless_node* node = (ast_unless_node*)tree;
-			free_tree_mem(node -> cond);
-			if(node -> unless_branch)
-				free_tree_mem(node -> unless_branch);
-			if(node -> otherwise_branch)
-				free_tree_mem(node -> otherwise_branch);
-			break;
-		} else if(tree -> node_type == "PACK") {
-			ast_package_node* node = (ast_package_node*)tree;
-			free_tree_mem(node -> package);
-			break;
-		} else if(tree -> node_type == "DEFL") {
-			ast_default_loop_node* node = (ast_default_loop_node*)tree;
-			free_tree_mem(node -> cond1);
-			free_tree_mem(node -> cond2);
-			if(node -> def_branch)
-				free_tree_mem(node -> def_branch);
-			if(node -> def_unless)
-				free_tree_mem(node -> def_unless);
-			break;
-		} else if(tree -> node_type == "FORL") {
-			ast_for_loop_node* node = (ast_for_loop_node*)tree;
-			if(node -> ident)
-				free_tree_mem(node -> ident);
-			if(node -> start)
-				free_tree_mem(node -> start);
-			free_tree_mem(node -> finish);
-			break;
-		} else if(tree -> node_type == "PRINT") {
-			ast_print_node* node = (ast_print_node*)tree;
-			free_tree_mem(node -> write_expr);
-			break;
-		} else if(tree -> node_type == "PROMPT") {
-			ast_prompt_node* node = (ast_prompt_node*)tree;
-			if(node -> str)
-				free_tree_mem(node -> str);
-			if(node -> ident)
-				free_tree_mem(node -> ident);
-			break;
-		} else if(tree -> node_type == "INPUT") {
-			ast_input_node* node = (ast_input_node*)tree;
-			free_tree_mem(node -> ident);
-			break;
-		} else if(tree -> node_type == "RETURN") {
-			ast_return_node* node = (ast_return_node*)tree;
-			free_tree_mem(node -> list);
-			break;
-		} else {
-			print_err("Error: Bad node type '%c' to free!\n", tree -> node_type);
-			break;
-		}
-		break; //just in case something weird happens and it loops more than once
+	if (tree -> node_type == "+" || tree -> node_type == "-" ||
+		tree -> node_type == "*" || tree -> node_type == "/" ||
+		tree -> node_type == "%" || tree -> node_type == "^" ||
+		tree -> node_type == "L") {
+		free_tree_mem(tree -> right);
 	}
+	else if (tree->node_type == "LIT" || tree->node_type == "IDRF") {}
+	else if(tree -> node_type == "ASSIGN") {
+		ast_assignment_node* node = (ast_assignment_node*)tree;
+		free_tree_mem(node -> ident);
+		free_tree_mem(node -> value);
+	} else if(tree -> node_type == "S_ASSIGN") {
+		ast_small_assign_node* node = (ast_small_assign_node*)tree;
+		free_tree_mem(node -> ident);
+	} else if(tree -> node_type == "O_ASSIGN") {
+		ast_opeq_assign_node* node = (ast_opeq_assign_node*)tree;
+		free_tree_mem(node -> ident);
+		free_tree_mem(node -> value);
+	} else if(tree -> node_type == "DECL") {
+		ast_declaration_node* node = (ast_declaration_node*)tree;
+		free_tree_mem(node -> name);
+	} else if(tree -> node_type == "COND") {
+		ast_conditional_node* node = (ast_conditional_node*)tree;
+		free_tree_mem(node -> left);
+		free_tree_mem(node -> right);
+	} else if(tree -> node_type == "FC") {
+		ast_fc_node* node = (ast_fc_node*)tree;
+		free_tree_mem(node -> name);
+		if(node -> params)
+			free_tree_mem(node -> params);
+	} else if(tree -> node_type == "IF") {
+		ast_if_node* node = (ast_if_node*)tree;
+		free_tree_mem(node -> cond);
+		if(node -> if_branch)
+			free_tree_mem(node -> if_branch);
+		if(node -> unless_branch)
+			free_tree_mem(node -> unless_branch);
+	} else if(tree -> node_type == "CHOICE") {
+		ast_choice_node* node = (ast_choice_node*)tree;
+		if(node -> choice_expr)
+			free_tree_mem(node -> choice_expr);
+		if(node -> choice_otherwise)
+			free_tree_mem(node -> choice_otherwise);
+	} else if(tree -> node_type == "UNLESS") {
+		ast_unless_node* node = (ast_unless_node*)tree;
+		free_tree_mem(node -> cond);
+		if(node -> unless_branch)
+			free_tree_mem(node -> unless_branch);
+		if(node -> otherwise_branch)
+			free_tree_mem(node -> otherwise_branch);
+	} else if(tree -> node_type == "PACK") {
+		ast_package_node* node = (ast_package_node*)tree;
+		free_tree_mem(node -> package);
+	} else if(tree -> node_type == "DEFL") {
+		ast_default_loop_node* node = (ast_default_loop_node*)tree;
+		free_tree_mem(node -> cond1);
+		free_tree_mem(node -> cond2);
+		if(node -> def_branch)
+			free_tree_mem(node -> def_branch);
+		if(node -> def_unless)
+			free_tree_mem(node -> def_unless);
+	} else if(tree -> node_type == "FORL") {
+		ast_for_loop_node* node = (ast_for_loop_node*)tree;
+		if(node -> ident)
+			free_tree_mem(node -> ident);
+		if(node -> start)
+			free_tree_mem(node -> start);
+		free_tree_mem(node -> finish);
+	} else if(tree -> node_type == "PRINT") {
+		ast_print_node* node = (ast_print_node*)tree;
+		free_tree_mem(node -> write_expr);
+	} else if(tree -> node_type == "PROMPT") {
+		ast_prompt_node* node = (ast_prompt_node*)tree;
+		if(node -> str)
+			free_tree_mem(node -> str);
+		if(node -> ident)
+			free_tree_mem(node -> ident);
+	} else if(tree -> node_type == "INPUT") {
+		ast_input_node* node = (ast_input_node*)tree;
+		free_tree_mem(node -> ident);
+	} else if(tree -> node_type == "RETURN") {
+		ast_return_node* node = (ast_return_node*)tree;
+		free_tree_mem(node -> list);
+	} else print_err("Error: Bad node type '%c' to free!\n", tree -> node_type);
 
 	free(tree);
 }

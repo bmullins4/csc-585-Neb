@@ -1786,11 +1786,95 @@ yyreduce:
     { (yyval.ast) = (yyvsp[(1) - (1)].ast); ;}
     break;
 
+  case 5:
+
+/* Line 1455 of yacc.c  */
+#line 112 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); ;}
+    break;
+
   case 6:
 
 /* Line 1455 of yacc.c  */
 #line 113 "parser.y"
     { (yyval.ast) = new_node("L", (yyvsp[(1) - (2)].ast), (yyvsp[(2) - (2)].ast)); ;}
+    break;
+
+  case 7:
+
+/* Line 1455 of yacc.c  */
+#line 117 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].assign); ;}
+    break;
+
+  case 8:
+
+/* Line 1455 of yacc.c  */
+#line 118 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); ;}
+    break;
+
+  case 9:
+
+/* Line 1455 of yacc.c  */
+#line 119 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); ;}
+    break;
+
+  case 10:
+
+/* Line 1455 of yacc.c  */
+#line 120 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].fc); ;}
+    break;
+
+  case 11:
+
+/* Line 1455 of yacc.c  */
+#line 121 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].decl); ;}
+    break;
+
+  case 12:
+
+/* Line 1455 of yacc.c  */
+#line 122 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].fc); ;}
+    break;
+
+  case 13:
+
+/* Line 1455 of yacc.c  */
+#line 123 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].pkg); ;}
+    break;
+
+  case 14:
+
+/* Line 1455 of yacc.c  */
+#line 124 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].ast); ;}
+    break;
+
+  case 15:
+
+/* Line 1455 of yacc.c  */
+#line 125 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].prnt); ;}
+    break;
+
+  case 16:
+
+/* Line 1455 of yacc.c  */
+#line 126 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].prmpt); ;}
+    break;
+
+  case 17:
+
+/* Line 1455 of yacc.c  */
+#line 127 "parser.y"
+    { (yyval.ast) = (yyvsp[(1) - (1)].rtn); ;}
     break;
 
   case 19:
@@ -2223,7 +2307,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2227 "parser.cpp"
+#line 2311 "parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

@@ -58,8 +58,8 @@ void start() {
 
 int main() {
 
-	yyparse();
-	//start();
+	//yyparse();
+	start();
 	return 0;
 }
 

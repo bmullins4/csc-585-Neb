@@ -95,7 +95,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 19 "parser.y"
+#line 25 "parser.y"
 
 	struct ast_node* ast;
 	struct ast_datatype_node* dt;

@@ -5,18 +5,6 @@
 const int MAX_SIZE = 211;
 const int SHIFT = 4;
 
-struct line_list {
-	int lineno;
-	line_list* next;
-};
-
-struct bucket_list {
-	char* name;
-	line_list* lines;
-	int location;
-	bucket_list* next;
-};
-
 static bucket_list* hashTable[MAX_SIZE];
 
 int hash(char* key) {
@@ -31,7 +19,8 @@ int hash(char* key) {
 	return h;
 }
 
-void insert(char* name, int lineno, int location) {
+//void insert(char* name, int lineno, int location) {
+void insert(char* name) {
 
 	int h = hash(name);
 	bucket_list* bl = hashTable[h];
@@ -40,11 +29,11 @@ void insert(char* name, int lineno, int location) {
 		bl = bl -> next;
 
 	if(bl == NULL) {
-		bl = (bucket_list*)malloc(sizeof(struct bucket_list));
+		bl = new bucket_list;
 		bl -> name = name;
-		bl -> lines = (line_list*)malloc(sizeof(struct line_list));
-		bl -> lines -> lineno = lineno;
-		bl -> location = location;
+		bl -> lines = new line_list;
+		//bl -> lines -> lineno = lineno;
+		//bl -> location = location;
 		bl -> lines -> next = NULL;
 		bl -> next = hashTable[h];
 		hashTable[h] = bl;
@@ -52,8 +41,8 @@ void insert(char* name, int lineno, int location) {
 		line_list* ll = bl -> lines;
 		while(ll -> next != NULL)
 			ll = ll -> next;
-		ll -> next = (line_list*)malloc(sizeof(struct line_list));
-		ll -> next -> lineno = lineno;
+		ll -> next = new line_list;
+		//ll -> next -> lineno = lineno;
 		ll -> next -> next = NULL;
 	}
 }
